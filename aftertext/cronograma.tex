@@ -1,0 +1,60 @@
+\chapter{Cronograma físico}
+\label{cronograma}
+\centering
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{0,56,147}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setlength{\autosizewidth}{\textwidth}
+\settowidth{\labelwidth}{\textbf{Elaboração de artigo: Requisitos Preliminares}}
+\ganttset{
+  timeslots/.code args={#1,#2}{
+    \setlength{\myunitx}{(\autosizewidth-\labelwidth-1em)/#1}
+    \renewcommand{\timeslots}{#1}
+    \pgfkeys{pgfgantt/x unit=\myunitx}
+  }
+}
+    
+\begin{ganttchart}[
+    timeslots={27,Elaboração de artigo: Requisitos Preliminares},
+    y unit chart=0.5cm,
+    canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    hgrid style/.style={draw=black!5, line width=.75pt},
+    vgrid={*1{draw=black!5, line width=.75pt}},
+    title/.style={draw=none, fill=none},
+    title label font=\fontsize{5}{12}\selectfont,
+    title label node/.append style={below=6pt},
+    include title in canvas=false,
+    bar height=0.5pt,
+    bar label font=\mdseries\small\color{black!70},
+    bar label node/.append style={text width=\labelwidth, align=left, left=-0.5cm},
+    group label node/.append style={text width=\labelwidth, align=left, anchor=east},
+    group label anchor/.append code={\hspace*{-\labelwidth}},
+    bar/.append style={draw=none, fill=barblue!63},
+    group/.append style={fill=groupblue!63},
+    group height=.5,
+    group peaks tip position=0
+  ]{1}{\timeslots}
+
+  \gantttitle[title label node/.append style={below left=6pt and -5pt}]{\small{Ciclo quinzenal:}\fontsize{5}{12}\selectfont\quad1}{1}
+  \gantttitlelist{2,...,\timeslots}{1} \\
+  \ganttgroup{Revisão Bibliográfica}{1}{2}\\
+  \ganttgroup{Definição de Requisitos Preliminares}{3}{7} \\
+  \ganttbar{Definição de Parâmetros de Interesse}{3}{3} \\
+  \ganttbar{Definição de Requisitos Funcionais}{4}{4}\\
+  \ganttbar{Modelagem Teórica dos Subsistemas}{5}{6} \\
+  \ganttbar{Otimização Paramétrica do Sistema}{7}{7} \\
+  \ganttgroup{Elaboração de artigo: Requisitos Preliminares}{8}{9}\\
+  \ganttmilestone{Publicação: Requisitos Preliminares}{9}\\
+  \ganttgroup{Design Preliminar dos Subsistemas}{8}{20} \\
+  \ganttbar{Proposta Inicial de Soluções}{8}{9} \\
+  \ganttmilestone{Análise de Viabiliadade}{9} \\
+  \ganttbar{Elaboração de Design Preliminar}{10}{20} \\
+  \ganttmilestone{Análise Final de Cumprimento de Requisitos}{20}\\
+  \ganttgroup{Elaboração de artigos}{21}{25}\\
+  \ganttmilestone{Publicação: Design Preliminar}{25}\\
+  \ganttbar{Redação do Relatório Final do Projeto}{26}{27}
+  
+\end{ganttchart}

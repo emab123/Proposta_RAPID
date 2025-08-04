@@ -1,0 +1,285 @@
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	%openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+	oneside,			% para impressão no anverso. Oposto a twoside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	%french,				% idioma adicional para hifenização
+	%spanish,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+	]{abntex2}
+
+% Pacote de definições proprias
+% ---
+\usepackage{setup/ufscthesisA4-alf}
+
+
+% Pacotes especificos
+% ---
+\usepackage{pgfgantt} % Gantt charts
+\usepackage{calc}     % Arithmetic in LaTeX
+\usepackage{tabularx} % Flexible tables
+\usepackage{svg}
+% Definições para usar no Gantt
+\newlength{\myunitx}
+\newlength{\autosizewidth}
+\newcommand*{\timeslots}{}
+% ---
+% Pacotes de citações
+% ---
+\usepackage{csquotes}
+\usepackage[backend = bibtex, style = abnt]{biblatex}
+% FIXME Se desejar estilo numérico de citações,  comente a linha acima e descomente a linha a seguir.
+% \usepackage[backend = biber, style = numeric-comp]{biblatex}
+
+% ---
+% Filtering and Mapping Bibliographies
+% ---
+
+\setlength\bibitemsep{\baselineskip}
+\DeclareFieldFormat{url}{Disponível~em:\addspace\url{#1}}
+\NewBibliographyString{sineloco}
+\NewBibliographyString{sinenomine}
+\DefineBibliographyStrings{brazil}{%
+	sineloco     = {\mkbibemph{S\adddot l\adddot}},
+	sinenomine   = {\mkbibemph{s\adddot n\adddot}},
+	andothers    = {\mkbibemph{et\addabbrvspace al\adddot}},
+	in			 = {\mkbibemph{In:}}
+}
+
+\addbibresource{aftertext/Referencias.bib} % Seus arquivos de referências
+
+% ---
+\DeclareSourcemap{
+	\maps[datatype=bibtex]{
+		% remove fields that are always useless
+		\map{
+			\step[fieldset=abstract, null]
+			\step[fieldset=pagetotal, null]
+		}
+		% remove URLs for types that are primarily printed
+%		\map{
+%			\pernottype{software}
+%			\pernottype{online}
+%			\pernottype{report}
+%			\pernottype{techreport}
+%			\pernottype{standard}
+%			\pernottype{manual}
+%			\pernottype{misc}
+%			\step[fieldset=url, null]
+%			\step[fieldset=urldate, null]
+%		}
+		\map{
+			\pertype{inproceedings}
+			% remove mostly redundant conference information
+			\step[fieldset=venue, null]
+			\step[fieldset=eventdate, null]
+			\step[fieldset=eventtitle, null]
+			% do not show ISBN for proceedings
+			\step[fieldset=isbn, null]
+			% Citavi bug
+			\step[fieldset=volume, null]
+		}
+	}
+}
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{RAPID - Rocket with Affordable Propellant Injection Design}
+\subtitulo{Design Preliminar de Motor-Foguete Bi-Propelente Liquido com Bombeamento Elétrico}
+\autor{Antônio Otaviano Dourado}
+\local{Joinville}
+\data{31 de Julho de 2025}
+\ano{2025}
+\instituicaosigla{UFSC}
+\instituicao{Universidade Federal de Santa Catarina}
+\tipotrabalho{Proposta de projeto de pesquisa}
+\programa{Departamento de Engenharias da Mobilidade}
+\centro{Centro Tecnológico de Joinville}
+\preambulo
+{%
+\imprimirtipotrabalho~submetido ao~\imprimirprograma~da~\imprimirinstituicao.
+}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+% ---
+% alterando o aspecto da cor azul, de acordo com identidade visual da UFSC
+\definecolor{blue}{RGB}{0,56,147}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={Grupo RAPID},
+		pdfkeywords={projeto de pesquisa}{RAPID}{UFSC}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+
+% ---
+% compila a lista de abreviaturas e siglas e a lista de símbolos
+% ---
+
+% Declaração das siglas
+\siglalista{RAPID}{\textit{Rocket with Affordable Propellant Injection Design}}
+\siglalista{EPFS}{\textit{Electric Pump Feed System}}
+\siglalista{EthaLOx}{Etanol - Oxigênio Líquido}
+\siglalista{RoCAT}{\textit{Rocket Cycle Analysis Tool}}
+\siglalista{AM}{\textit{Additive Manufacturing}}
+\siglalista{UFSC}{Universidade Federal de Santa Catarina}
+\siglalista{IAE}{Instituto de Aeronáutica e Espaço}
+\siglalista{MBSE}{\textit{Model Based Systems Engineering}}
+
+% Declaração dos simbolos
+\simbololista{C}{\ensuremath{C}}{Circunferência de um círculo}
+\simbololista{pi}{\ensuremath{\pi}}{Número pi} 
+\simbololista{r}{\ensuremath{r}}{Raio de um círculo}
+\simbololista{A}{\ensuremath{A}}{Área de um círculo}
+
+% compila a lista de abreviaturas e siglas e a lista de símbolos
+\makenoidxglossaries 
+
+% ---
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% Espaçamento 1.5 entre linhas
+\OnehalfSpacing
+
+% Corrige justificação
+%\sloppy
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual %a macro \pretextual é acionado automaticamente no início de \begin{document}
+% ---
+% Capa, folha de rosto, ficha bibliografica, errata, folha de apróvação
+% Dedicatória, agradecimentos, epígrafe, resumos, listas
+% ---
+\input{beforetext/beforetext}
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+% ---
+\include{capitulos/intro}
+% ---
+\include{capitulos/metas&resultados}
+% ---
+\include{capitulos/metodologia}
+% ---
+\include{capitulos/recursos}
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\begingroup
+    \SingleSpacing\printbibliography[title=REFERÊNCIAS]
+\endgroup
+
+% ----------------------------------------------------------
+% Glossário
+% ----------------------------------------------------------
+%
+% Consulte o manual da classe abntex2 para orientações sobre o glossário.
+%
+%\glossary
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+
+% ---
+% Inicia os apêndices
+% ---
+%\begin{apendicesenv}
+%	\partapendices* 
+%	\input{aftertext/apendice_a}
+%\end{apendicesenv}
+% ---
+
+
+% ----------------------------------------------------------
+% Anexos
+% ----------------------------------------------------------
+
+% ---
+% Inicia os anexos
+% ---
+\begin{anexosenv}
+	\partanexos*
+	\input{aftertext/cronograma}
+\end{anexosenv}
+
+%---------------------------------------------------------------------
+% INDICE REMISSIVO
+%---------------------------------------------------------------------
+%\phantompart
+%\printindex
+%---------------------------------------------------------------------
+
+\end{document}
+
+
+
+% General packages
+\usepackage{graphicx} % Images
+
+\usepackage{indentfirst} % Indent first paragraph
+\usepackage[left=1.5cm,right=1.5cm,top=1cm,bottom=1cm,includeheadfoot]{geometry}
+
+% Review export setup
+\usepackage{ifthen, etoolbox}
+\usepackage{xcolor}
+\usepackage{lineno}
+\usepackage{xwatermark}
+\usepackage{scrlayer-scrpage}
+
+\newcommand*{\timeslots}{}
+\storeareas\myvalues
